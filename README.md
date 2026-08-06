@@ -18,6 +18,13 @@ A Manifest V3 Chrome extension that stays with designers as they browse, capture
 - `Option+T` opens the extension popup on macOS
 - `Alt+O` shows or hides the floater
 
+## Demo videos
+
+- [Enable SnapStack](https://vimeo.com/1215927867?share=copy&fl=sv&fe=ci)
+- [Region screenshot capture](https://vimeo.com/1215934157?share=copy&fl=sv&fe=ci)
+- [Save images across tabs](https://vimeo.com/1215948317?share=copy&fl=sv&fe=ci)
+- [Copy the full stack into Figma](https://vimeo.com/1216005522?share=copy&fl=sv&fe=ci)
+
 ## Build
 
 ```bash
