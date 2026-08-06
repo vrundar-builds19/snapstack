@@ -1,0 +1,12 @@
+node_modules/
+dist/
+tmp/
+releases/
+.DS_Store
+*.log
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.crx
