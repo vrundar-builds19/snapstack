@@ -20,10 +20,25 @@ A Manifest V3 Chrome extension that stays with designers as they browse, capture
 
 ## Demo videos
 
-- [Enable SnapStack](https://vimeo.com/1215927867?share=copy&fl=sv&fe=ci)
-- [Region screenshot capture](https://vimeo.com/1215934157?share=copy&fl=sv&fe=ci)
-- [Save images across tabs](https://vimeo.com/1215948317?share=copy&fl=sv&fe=ci)
-- [Copy the full stack into Figma](https://vimeo.com/1216005522?share=copy&fl=sv&fe=ci)
+### [ENABLE SNAPSTACK](https://vimeo.com/1215927867?share=copy&fl=sv&fe=ci)
+
+Open SnapStack from the Chrome extension popup or with **Option + T**, then switch it on to bring the floating stack into the browser.
+
+To switch the floater on or off, press **Option + O**.
+
+### [REGION SCREENSHOT CAPTURE](https://vimeo.com/1215934157?share=copy&fl=sv&fe=ci)
+
+Capture only the part of a page you need, switch tabs, and keep adding screenshots to the same floating stack without losing what you captured earlier.
+
+Keyboard shortcut to capture a screenshot: **T**.
+
+### [SAVE IMAGES ACROSS TABS + USE CASE](https://vimeo.com/1215948317?share=copy&fl=sv&fe=ci)
+
+Save images from any webpage with **Right click + Save to SnapStack**, keep them in the same floating stack across tabs, and copy a single image when needed. This demo tests the copied image directly in ChatGPT to show that SnapStack works beyond design tools too.
+
+### [COPY THE FULL STACK INTO FIGMA](https://vimeo.com/1216005522?share=copy&fl=sv&fe=ci)
+
+Collect multiple screenshots and saved images while browsing, then paste the full stack into Figma.
 
 ## Build
 
