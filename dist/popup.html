@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SnapStack</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="snapstack-popup-body">
+    <main class="bx-popup">
+      <header class="bx-popup-hero">
+        <div class="bx-popup-art" aria-hidden="true">
+          <div class="bx-popup-art-rotation">
+            <img src="popup-slab-art.png" alt="" />
+          </div>
+        </div>
+        <div class="bx-popup-brand" aria-label="SnapStack — Snap. Stack. Stay in flow.">
+          <h1>SnapStack</h1>
+          <div class="bx-popup-tags" aria-hidden="true">
+            <span>Snap</span>
+            <span>Stack</span>
+            <span>Stay in flow</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="bx-popup-actions" aria-label="SnapStack controls">
+        <div class="bx-site-toggle">
+          <button class="bx-site-toggle-copy" tabindex="-1">
+            <strong>Enable SnapStack</strong>
+            <span>Capture without breaking your flow.</span>
+          </button>
+          <button
+            class="bx-switch bx-switch-checked"
+            type="button"
+            role="switch"
+            aria-label="Enable SnapStack"
+            aria-checked="true"
+          >
+            <span class="bx-switch-thumb"></span>
+          </button>
+        </div>
+      </section>
+
+      <p class="bx-popup-error" hidden></p>
+
+      <div class="bx-popup-shortcut">
+        <div class="bx-popup-shortcut-copy">
+          <span>Press</span>
+          <kbd>T</kbd>
+          <span>to take a screenshot</span>
+        </div>
+      </div>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

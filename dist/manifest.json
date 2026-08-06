@@ -1,0 +1,82 @@
+{
+  "manifest_version": 3,
+  "name": "SnapStack",
+  "description": "Capture across tabs. Paste once as separate image layers.",
+  "version": "0.1.0",
+  "icons": {
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "contextMenus",
+    "scripting",
+    "storage",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "SnapStack",
+    "default_icon": "icon128.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+T",
+        "mac": "Option+T"
+      }
+    },
+    "capture-region": {
+      "suggested_key": {
+        "default": "Alt+Shift+S",
+        "mac": "Alt+Shift+S"
+      },
+      "description": "Capture a region into SnapStack"
+    },
+    "toggle-snapstack": {
+      "suggested_key": {
+        "default": "Alt+O",
+        "mac": "Alt+O"
+      },
+      "description": "Show or hide SnapStack"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "styles.css",
+        "icon.svg",
+        "fonts/inter-400.woff2",
+        "fonts/inter-500.woff2",
+        "fonts/inter-600.woff2",
+        "fonts/inter-700.woff2",
+        "copy-images-active.svg",
+        "copy-images-disabled.svg",
+        "drag-handle.svg",
+        "toast-success.svg"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ]
+}
