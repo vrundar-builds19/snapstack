@@ -74,4 +74,4 @@ If SnapStack’s data practices change, this policy will be updated before the n
 
 For privacy questions or requests, contact:
 
-**Email:** [Add your support email before publishing]
+**Email:** vrundar.builds@gmail.com

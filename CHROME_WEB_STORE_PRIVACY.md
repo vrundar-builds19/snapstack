@@ -62,4 +62,4 @@ SnapStack:
 
 ## Privacy-policy URL
 
-Publish `PRIVACY_POLICY.md` as a publicly accessible webpage, then enter its HTTPS URL in the Privacy practices tab. Replace the contact placeholder before publishing the page.
+The policy in `PRIVACY_POLICY.md` is hosted at https://claude.ai/artifact/RxNrm6K6c4AtZYKar84NxX. Make sure that page is shared publicly, then enter the URL in the Privacy practices tab. Privacy contact: vrundar.builds@gmail.com.
