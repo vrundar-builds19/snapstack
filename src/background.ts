@@ -38,8 +38,23 @@ async function getSnapStackEnabled() {
   return stored[SNAPSTACK_ENABLED_STORAGE_KEY] === true;
 }
 
+function hostnameOf(url?: string) {
+  try {
+    return url ? new URL(url).hostname : "";
+  } catch {
+    return "";
+  }
+}
+
+async function getDisabledSites() {
+  const stored = await chrome.storage.local.get(DISABLED_SITES_STORAGE_KEY);
+  return (stored[DISABLED_SITES_STORAGE_KEY] as string[] | undefined) ?? [];
+}
+
 async function isSiteEnabled(url?: string) {
-  return isSupportedPage(url) && await getSnapStackEnabled();
+  return isSupportedPage(url)
+    && await getSnapStackEnabled()
+    && !(await getDisabledSites()).includes(hostnameOf(url));
 }
 
 async function activeTab() {
@@ -55,8 +70,48 @@ async function updateActionTitle(tab: chrome.tabs.Tab) {
     ? "SnapStack — Not available on this page"
     : enabled
       ? "SnapStack — Enabled"
-      : "SnapStack — Disabled";
+      : await getSnapStackEnabled()
+        ? "SnapStack — Off on this site"
+        : "SnapStack — Disabled";
   await chrome.action.setTitle({ tabId: tab.id, title });
+}
+
+// Each tab gets its own value because a site can be turned off while SnapStack stays on elsewhere.
+async function syncEnabledStateToTabs() {
+  const [tabs, globalEnabled, disabledSites] = await Promise.all([
+    chrome.tabs.query({}),
+    getSnapStackEnabled(),
+    getDisabledSites()
+  ]);
+  await Promise.all(tabs.map(async (tab) => {
+    if (!tab.id || !isSupportedPage(tab.url)) return;
+    try {
+      await chrome.tabs.sendMessage(tab.id, {
+        type: "SITE_ENABLED_CHANGED",
+        enabled: globalEnabled && !disabledSites.includes(hostnameOf(tab.url))
+      } satisfies ExtensionMessage);
+    } catch {
+      // Tabs without an active SnapStack content script can sync on their next load.
+    }
+  }));
+}
+
+async function setSiteDisabled(tab: chrome.tabs.Tab, disabled: boolean) {
+  const hostname = hostnameOf(tab.url);
+  if (!isSupportedPage(tab.url) || !hostname) {
+    throw new Error("SnapStack cannot be changed on this page.");
+  }
+  const otherSites = (await getDisabledSites()).filter((site) => site !== hostname);
+  await chrome.storage.local.set({
+    [DISABLED_SITES_STORAGE_KEY]: disabled ? [...otherSites, hostname] : otherSites
+  });
+  const tabs = await chrome.tabs.query({});
+  void Promise.all([
+    syncEnabledStateToTabs(),
+    ...tabs.map((candidate) => updateActionTitle(candidate))
+  ]).catch(() => {
+    // The saved site list remains authoritative if a tab closes during sync.
+  });
 }
 
 async function updateSiteToggleMenu(tab: chrome.tabs.Tab) {
@@ -76,7 +131,7 @@ async function setSiteEnabled(tab: chrome.tabs.Tab, enabled: boolean) {
   });
   const tabs = await chrome.tabs.query({});
   void Promise.all([
-    broadcastToContent({ type: "SITE_ENABLED_CHANGED", enabled }),
+    syncEnabledStateToTabs(),
     ...tabs.map((candidate) => updateActionTitle(candidate)),
     tab.active ? updateSiteToggleMenu(tab) : Promise.resolve()
   ]).catch(() => {
@@ -166,10 +221,16 @@ async function getState(url?: string): Promise<StackState> {
 }
 
 async function getSiteState(url?: string): Promise<SiteState> {
-  const siteSupported = isSupportedPage(url);
+  const [globalEnabled, disabledSites] = await Promise.all([
+    getSnapStackEnabled(),
+    getDisabledSites()
+  ]);
+  const hostname = hostnameOf(url);
   return {
-    siteEnabled: await getSnapStackEnabled(),
-    siteSupported
+    siteEnabled: globalEnabled && !disabledSites.includes(hostname),
+    siteSupported: isSupportedPage(url),
+    globalEnabled,
+    hostname
   };
 }
 
@@ -612,6 +673,7 @@ async function saveContextImage(info: chrome.contextMenus.OnClickData, tab: chro
     capturedAt: Date.now()
   };
   if (!await getSnapStackEnabled()) await setSiteEnabled(tab, true);
+  if ((await getDisabledSites()).includes(hostnameOf(tab.url))) await setSiteDisabled(tab, false);
   await addCaptureToStack(item);
   if (tab.id) {
     await syncStackToTab(tab.id);
@@ -804,6 +866,13 @@ chrome.runtime.onMessage.addListener(
                 ? await getSiteState(tab.url)
                 : await getState(tab.url)
             });
+            return;
+          }
+          case "SET_SITE_DISABLED": {
+            const tab = sender.tab ?? await activeTab();
+            if (!tab) throw new Error("No active tab is available.");
+            await setSiteDisabled(tab, message.disabled);
+            sendResponse({ ok: true, data: await getSiteState(tab.url) });
             return;
           }
           case "SET_FLOATER_POSITION":

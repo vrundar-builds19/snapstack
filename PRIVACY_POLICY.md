@@ -11,7 +11,7 @@ SnapStack handles only the information needed to provide its screenshot and imag
 - Screenshot regions that the user explicitly captures.
 - Images that the user explicitly saves through the “Save to SnapStack” context-menu action.
 - The title, hostname, and URL of the webpage from which an image or screenshot was captured. SnapStack records this source information only when the user deliberately captures or saves an item.
-- Extension preferences, including whether SnapStack is enabled, the floater position, and whether onboarding guidance has been dismissed.
+- Extension preferences, including whether SnapStack is enabled, the hostnames of sites where the user turned SnapStack off, the floater position, and whether onboarding guidance has been dismissed.
 
 Captured webpages may contain personal or sensitive information. SnapStack processes this content only when the user deliberately captures or saves it.
 

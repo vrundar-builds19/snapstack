@@ -17,6 +17,7 @@ A Manifest V3 Chrome extension that stays with designers as they browse, capture
 - `T` capture shortcut on webpages, ignored while typing
 - `Option+T` opens the extension popup on macOS
 - `Alt+O` shows or hides the floater
+- Turn SnapStack off on individual sites from the floater menu, and back on from the popup
 
 ## Demo videos
 

@@ -22,7 +22,7 @@ Required to inject or restore SnapStack’s floater and region-selection interfa
 
 ### storage
 
-Required to store captured images, thumbnails, source labels, stack order, floater position, enabled state, and onboarding preferences locally in the user’s Chrome profile.
+Required to store captured images, thumbnails, source labels, stack order, floater position, enabled state, the hostnames of sites where the user turned SnapStack off, and onboarding preferences locally in the user’s Chrome profile.
 
 ### unlimitedStorage
 
