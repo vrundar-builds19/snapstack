@@ -74,6 +74,21 @@ function imageTarget(element: Element, url?: string | null): ContextImageTarget 
   };
 }
 
+function isTyping() {
+  if (document.designMode === "on") return true;
+  // event.target stops at the shadow host, so walk down to the element that really has focus.
+  let focused = document.activeElement;
+  while (focused instanceof HTMLElement) {
+    const next = chrome.dom.openOrClosedShadowRoot(focused)?.activeElement;
+    if (!next) break;
+    focused = next;
+  }
+  return focused instanceof HTMLElement && (
+    focused.isContentEditable ||
+    Boolean(focused.closest("input, textarea, select, [role=\"textbox\"], [role=\"searchbox\"], [role=\"combobox\"]"))
+  );
+}
+
 function contextImageTarget(event: MouseEvent) {
   const path = event.composedPath().filter((item): item is Element => item instanceof Element);
   for (const element of path) {
@@ -957,10 +972,31 @@ function App() {
         return;
       }
 
-      const target = event.target;
-      const isEditing = target instanceof Element && Boolean(
-        target.closest("input, textarea, select, [contenteditable]")
-      );
+      const isEditing = isTyping();
+
+      // Works while SnapStack is off too, since this key is also how it turns back on.
+      if (
+        event.key.toLowerCase() === "o" &&
+        !event.repeat &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.altKey &&
+        !event.shiftKey &&
+        !isEditing &&
+        !capturing &&
+        !processing
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        void sendMessage({
+          type: "SET_ACTIVE_SITE_ENABLED",
+          enabled: !state.siteEnabled,
+          includeItems: false
+        }).then((response) => {
+          if (!response.ok) setToast(response.error ?? "SnapStack could not be changed.");
+        });
+        return;
+      }
 
       if (
         event.key.toLowerCase() !== "t" ||

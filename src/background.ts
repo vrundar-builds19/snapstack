@@ -685,16 +685,6 @@ chrome.windows.onFocusChanged.addListener((windowId) => {
 chrome.commands.onCommand.addListener((command) => {
   if (command === "capture-region") {
     void beginCaptureInActiveTab();
-    return;
-  }
-  if (command === "toggle-snapstack") {
-    void (async () => {
-      const tab = await activeTab();
-      if (!tab) return;
-      const nextEnabled = !await getSnapStackEnabled();
-      if (nextEnabled && tab.id) await ensureContentInTab(tab.id);
-      await setSiteEnabled(tab, nextEnabled);
-    })();
   }
 });
 

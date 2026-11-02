@@ -11,12 +11,14 @@ A Manifest V3 Chrome extension that stays with designers as they browse, capture
 - Draggable floater position synchronized across tabs
 - **Enable SnapStack** switch in the extension popup
 - On/off status in the extension icon tooltip and right-click menu
-- Thumbnail preview, full-size image preview, copy, delete, and ordering
+- Thumbnail preview, full-size image preview, copy, and delete
 - Copy one image or copy the complete stack as SVG-backed independent image layers
 - Local-only storage with a 24-capture limit
 - `T` capture shortcut on webpages, ignored while typing
 - `Option+T` opens the extension popup on macOS
-- `Alt+O` shows or hides the floater
+- `O` shows or hides the floater, ignored while typing
+- `Alt+Shift+S` (`Option+Shift+S` on macOS) also starts a capture
+- `Esc` cancels a capture or closes the stack and image preview
 
 ## Demo videos
 
@@ -24,7 +26,7 @@ A Manifest V3 Chrome extension that stays with designers as they browse, capture
 
 Open SnapStack from the Chrome extension popup or with **Option + T**, then switch it on to bring the floating stack into the browser.
 
-To switch the floater on or off, press **Option + O**.
+To switch the floater on or off, press **O**.
 
 ### [REGION SCREENSHOT CAPTURE](https://vimeo.com/1215934157?share=copy&fl=sv&fe=ci)
 

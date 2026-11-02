@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SnapStack",
   "description": "Capture across tabs. Paste once as separate image layers.",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "icons": {
     "128": "icon128.png"
   },
@@ -50,13 +50,6 @@
         "mac": "Alt+Shift+S"
       },
       "description": "Capture a region into SnapStack"
-    },
-    "toggle-snapstack": {
-      "suggested_key": {
-        "default": "Alt+O",
-        "mac": "Alt+O"
-      },
-      "description": "Show or hide SnapStack"
     }
   },
   "web_accessible_resources": [
