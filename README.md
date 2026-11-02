@@ -85,6 +85,6 @@ Example handoff names:
 - Parent: `SnapStack · 3 refs · 3 Aug`
 - Layers: `pinterest-01`, `pinterest-02`, `tumblr-03`
 
-The layered clipboard format is designed for Figma and other apps that understand pasted SVG. Plain text editors may paste the SVG source.
+**Copy All Imgs** puts two formats on the clipboard: layered SVG for Figma, and HTML images for rich-text apps such as Google Docs. Plain text fields may paste the SVG source.
 
 The extension keeps data locally. It does not inject on Chrome internal pages or the Chrome Web Store because Chrome blocks extensions on those pages.

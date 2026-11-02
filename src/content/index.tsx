@@ -298,6 +298,14 @@ function createLayeredSvg(items: CaptureItem[]) {
   return `<svg xmlns="http://www.w3.org/2000/svg" id="${escapedFrameName}" data-name="${escapedFrameName}" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><title>${frameName}</title>${layers.reverse().join("")}</svg>`;
 }
 
+// Apps that don't read pasted SVG, like document editors, can use this instead.
+function createStackHtml(items: CaptureItem[]) {
+  return [...items]
+    .sort((a, b) => b.capturedAt - a.capturedAt)
+    .map((item) => `<p><img src="${item.imageDataUrl}" alt="${escapeSvgAttribute(sourceLayerSlug(item))}"></p>`)
+    .join("");
+}
+
 function CaptureOverlay({
   onCancel,
   onComplete
@@ -1791,14 +1799,19 @@ function App() {
     if (!state.items.length || copying) return;
     setCopying(true);
     try {
-      if (!navigator.clipboard?.writeText) {
+      if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") {
         throw new Error("Layer copying is not supported on this page.");
       }
       const response = await sendMessage<CaptureItem[]>({ type: "GET_CAPTURES" }, 30000);
       if (!response.ok || !response.data?.length) {
         throw new Error(response.error ?? "Your image stack is empty.");
       }
-      await navigator.clipboard.writeText(createLayeredSvg(response.data));
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "text/plain": new Blob([createLayeredSvg(response.data)], { type: "text/plain" }),
+          "text/html": new Blob([createStackHtml(response.data)], { type: "text/html" })
+        })
+      ]);
       setToast(`Copied ${response.data.length} screenshot layer${response.data.length === 1 ? "" : "s"}`);
     } catch (error) {
       setToast(error instanceof Error ? error.message : "Screenshots could not be copied.");

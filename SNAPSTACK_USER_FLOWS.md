@@ -499,7 +499,7 @@ flowchart TD
    - A 24px gap separates image layers.
    - The parent is named `SnapStack · N refs · D Mon`.
    - Each image layer is named from its source and stack order, such as `pinterest-01`.
-6. SnapStack writes the SVG markup to the clipboard as text.
+6. SnapStack writes the SVG markup to the clipboard as text, plus an HTML version containing every image.
 7. The feedback toast confirms how many screenshot layers were copied.
 8. The user switches to Figma.
 9. The user pastes once.
@@ -507,7 +507,7 @@ flowchart TD
 
 ### Important compatibility note
 
-The full-stack clipboard format is optimized for Figma. Other destinations may:
+The layered SVG format is optimized for Figma. Rich-text apps such as Google Docs can use the HTML images instead. Other destinations may:
 
 - Paste the SVG markup as text
 - Paste a single composed SVG
@@ -523,7 +523,7 @@ Individual Copy should be used when the destination expects a standard PNG clipb
 | Stack is empty | Show Capture SS instead of Copy Images. |
 | The user clicks repeatedly while copying | Ignore duplicate activation until the current operation finishes. |
 | One payload is missing | Abort the copy, leave the stack unchanged, and show an error. |
-| Clipboard text writing is unsupported | Show “Layer copying is not supported on this page.” |
+| Clipboard writing is unsupported | Show “Layer copying is not supported on this page.” |
 | Clipboard permission is denied | Show a copy error; do not clear the stack. |
 | Figma pastes one composed object | Verify that the current Figma paste behavior still interprets the layered SVG as expected. |
 | A non-Figma destination displays SVG source text | This is a destination compatibility limitation, not image data loss. |
@@ -733,8 +733,8 @@ The toolbar popup may still be opened manually on these pages, but webpage captu
 | Stack | Panel would cross viewport | Open in the available direction. |
 | Copy one | Full image loads slowly | Show Copied! optimistically. |
 | Copy one | Clipboard write fails | Revert icon/tooltip and show error. |
-| Copy all | Clipboard text unsupported | Show error; keep stack. |
-| Copy all | Destination is not Figma | Destination may paste text or one SVG. |
+| Copy all | Clipboard writing unsupported | Show error; keep stack. |
+| Copy all | Destination is not Figma | Rich-text apps may paste the images; others may paste text or one SVG. |
 | Delete | Storage mutation fails | Resync from storage and show error. |
 | Clear | Payload cleanup fails | Keep visible stack empty; cleanup is best-effort. |
 | Disable | Disabled on one tab | Disable globally across supported tabs. |
