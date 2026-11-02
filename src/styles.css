@@ -243,7 +243,6 @@ button {
 /* Open upward from the default bottom dock; downward only when docked at the top. */
 .bx-floating-shell-open-below .bx-more-menu { top: 68px; bottom: auto; transform-origin: top right; }
 .bx-more-menu button { appearance: none; box-sizing: border-box; width: 100%; min-width: 0; height: 32px; display: flex; align-items: center; justify-content: flex-start; padding: 6px 8px; border: 0; border-radius: 7px; background: transparent; color: #404040; cursor: pointer; font-family: "SnapStack Inter", ui-sans-serif, sans-serif; font-size: 13px; line-height: 20px; font-weight: 600; white-space: nowrap; transition: background-color 120ms ease; }
-.bx-more-menu button span { overflow: hidden; text-overflow: ellipsis; }
 .bx-more-menu button:hover,
 .bx-more-menu button:focus-visible { background: #f3f3f3; color: #404040; outline: none; }
 .bx-more-menu button:active { background: #f3f3f3; color: #404040; }

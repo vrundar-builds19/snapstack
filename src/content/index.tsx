@@ -1192,19 +1192,6 @@ function App() {
     });
   }, [resyncStackAfterMutationError]);
 
-  const turnOffOnThisSite = useCallback(() => {
-    setMoreMenuOpen(false);
-    setExpanded(false);
-    setState((current) => ({ ...current, siteEnabled: false }));
-    void sendMessage({ type: "SET_SITE_DISABLED", disabled: true }).then((response) => {
-      if (!response.ok) {
-        void resyncStackAfterMutationError(
-          response.error ?? "SnapStack could not be turned off on this site."
-        );
-      }
-    });
-  }, [resyncStackAfterMutationError]);
-
   const visibleItemCount = Math.min(MAX_STACK_SIZE, state.items.length + pendingCaptureCount);
   const stackLabel = useMemo(
     () => `${visibleItemCount} image${visibleItemCount === 1 ? "" : "s"} in the stack`,
@@ -1345,14 +1332,6 @@ function App() {
                   id="bx-snapstack-more-menu"
                   role="menu"
                 >
-                  <button
-                    type="button"
-                    role="menuitem"
-                    onClick={turnOffOnThisSite}
-                    title={`Turn off on ${location.hostname}`}
-                  >
-                    <span>Turn off on {location.hostname}</span>
-                  </button>
                   <button type="button" role="menuitem" onClick={turnOffSnapStack}>
                     Turn off SnapStack
                   </button>
