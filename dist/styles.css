@@ -264,13 +264,43 @@ button {
 .bx-row-action-tooltip { position: absolute; z-index: 4; transform: translate(-50%, -100%); padding: 7px 10px; border: 1px solid #404040; border-radius: 10px; background: #404040; color: #fff; box-shadow: 0 2px 7px rgb(0 0 0 / 0.16); pointer-events: none; font-family: "SnapStack Inter", ui-sans-serif, sans-serif; font-size: 13px; line-height: 20px; font-weight: 500; white-space: nowrap; animation: bx-tooltip-in 100ms ease-out both; }
 .bx-row-action-tooltip-below { transform: translate(-50%, 0); animation-name: bx-tooltip-in-below; }
 .bx-image-preview-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 32px; background: rgb(0 0 0 / 0.46); backdrop-filter: blur(6px); pointer-events: auto; animation: bx-preview-backdrop-in 140ms ease-out both; }
-.bx-image-preview-shell { position: relative; max-width: calc(100vw - 64px); max-height: calc(100vh - 64px); display: flex; align-items: flex-start; justify-content: center; }
+.bx-image-preview-shell { position: relative; max-width: calc(100vw - 64px); max-height: calc(100vh - 64px); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 12px; }
 .bx-image-preview-frame { display: grid; place-items: center; min-width: 180px; min-height: 120px; overflow: hidden; border: 0; border-radius: 12px; background: #fff; box-shadow: 0 0 0 3px #eee, 0 18px 48px rgb(0 0 0 / 0.26); animation: bx-preview-image-in 160ms cubic-bezier(.22,.8,.3,1) both; }
-.bx-image-preview-frame img { display: block; width: auto; height: auto; max-width: calc(100vw - 64px); max-height: calc(100vh - 64px); object-fit: contain; user-select: none; }
+.bx-image-preview-frame img { display: block; width: auto; height: auto; max-width: calc(100vw - 64px); max-height: calc(100vh - 128px); object-fit: contain; user-select: none; }
 .bx-image-preview-close { appearance: none; position: absolute; z-index: 1; top: -12px; right: -12px; width: 32px; height: 32px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 9px; background: #fff; color: #404040; box-shadow: 0 0 0 2px #eee, 0 6px 13.3px rgb(0 0 0 / 0.12); cursor: pointer; transition: background-color 120ms ease, color 120ms ease, transform 120ms ease; }
 .bx-image-preview-close:hover { background: #f3f3f3; color: #0a0a0a; }
 .bx-image-preview-close:active { transform: translateY(1px); }
 .bx-image-preview-close:focus-visible { outline: 2px solid #6498ff; outline-offset: 2px; }
+.bx-annotate-stage { position: relative; display: block; touch-action: none; }
+.bx-annotate-stage-box { cursor: crosshair; }
+.bx-annotate-stage-text { cursor: text; }
+.bx-annotate-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.bx-annotate-text-input { position: absolute; box-sizing: border-box; min-width: 96px; max-width: 60%; field-sizing: content; padding: 0; overflow: hidden; border: 0; border-radius: 3px; outline: 1px dashed currentColor; outline-offset: 2px; background: transparent; resize: none; white-space: pre; }
+.bx-annotate-text-input::placeholder { color: inherit; opacity: 0.6; }
+.bx-annotate-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; border-radius: 12px; background: #fff; color: #404040; box-shadow: 0 0 0 3px #eee, 0 6px 13.3px rgb(0 0 0 / 0.12); font-family: "SnapStack Inter", ui-sans-serif, sans-serif; }
+.bx-annotate-bar button { appearance: none; border: 0; cursor: pointer; }
+.bx-annotate-bar button:focus-visible { outline: 2px solid #6498ff; outline-offset: 2px; }
+.bx-annotate-bar button:disabled { cursor: not-allowed; opacity: 0.4; }
+.bx-annotate-tool { height: 32px; display: flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 8px; background: transparent; color: #404040; font: inherit; font-size: 13px; line-height: 20px; font-weight: 600; }
+.bx-annotate-tool:not(:disabled):hover { background: #f3f3f3; }
+.bx-annotate-tool[aria-pressed="true"] { background: #ecf2ff; color: #004be1; }
+.bx-annotate-divider { width: 1px; height: 20px; margin: 0 4px; background: #eee; }
+.bx-annotate-swatch { width: 22px; height: 22px; margin: 0 1px; padding: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.16); }
+.bx-annotate-swatch[aria-pressed="true"] { outline: 2px solid #004be1; outline-offset: 2px; }
+.bx-annotate-stroke { width: 32px; height: 32px; display: grid; place-items: center; padding: 0; border-radius: 8px; background: transparent; color: #404040; }
+.bx-annotate-stroke:not(:disabled):hover { background: #f3f3f3; }
+.bx-annotate-stroke[aria-pressed="true"] { background: #ecf2ff; color: #004be1; }
+.bx-annotate-stroke span { display: block; width: 18px; border-radius: 1px; background: currentColor; }
+.bx-annotate-save { height: 32px; margin-left: 4px; padding: 0 12px; border: 0; border-radius: 8px; background: #004be1; color: #fff; cursor: pointer; font-family: "SnapStack Inter", ui-sans-serif, sans-serif; font-size: 13px; line-height: 20px; font-weight: 600; white-space: nowrap; }
+.bx-annotate-save:not(:disabled):hover { background: #003fbe; }
+.bx-annotate-save:focus-visible { outline: 2px solid #6498ff; outline-offset: 2px; }
+.bx-annotate-save:disabled { cursor: not-allowed; opacity: 0.4; }
+.bx-annotate-confirm { position: absolute; z-index: 2; top: 50%; left: 50%; display: grid; gap: 12px; padding: 16px; border-radius: 12px; background: #fff; color: #0a0a0a; box-shadow: 0 0 0 3px #eee, 0 18px 48px rgb(0 0 0 / 0.26); font-family: "SnapStack Inter", ui-sans-serif, sans-serif; transform: translate(-50%, -50%); }
+.bx-annotate-confirm p { margin: 0; font-size: 14px; line-height: 21px; font-weight: 600; white-space: nowrap; }
+.bx-annotate-confirm div { display: flex; justify-content: flex-end; gap: 4px; }
+.bx-annotate-confirm .bx-annotate-tool { border: 0; cursor: pointer; }
+.bx-annotate-confirm .bx-annotate-tool:hover { background: #f3f3f3; }
+.bx-annotate-error { width: 100%; color: var(--bx-destructive); font-size: 12px; line-height: 16px; font-weight: 600; text-align: center; }
 .bx-image-preview-status { padding: 18px 20px; color: #404040; font-family: "SnapStack Inter", ui-sans-serif, sans-serif; font-size: 13px; line-height: 20px; font-weight: 600; white-space: nowrap; }
 .bx-empty-state { appearance: none; width: calc(100% - 16px); min-height: 144px; margin: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px dashed var(--bx-border); border-radius: 9px; background: transparent; color: var(--bx-foreground); cursor: pointer; }
 .bx-empty-state:hover { background: var(--bx-muted); }

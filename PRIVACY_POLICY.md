@@ -10,6 +10,7 @@ SnapStack handles only the information needed to provide its screenshot and imag
 
 - Screenshot regions that the user explicitly captures.
 - Images that the user explicitly saves through the “Save to SnapStack” context-menu action.
+- Boxes and text the user adds to a captured image. These stay with that image in local storage, and copied images include them.
 - The title, hostname, and URL of the webpage from which an image or screenshot was captured. SnapStack records this source information only when the user deliberately captures or saves an item.
 - Extension preferences, including whether SnapStack is enabled, the floater position, and whether onboarding guidance has been dismissed.
 

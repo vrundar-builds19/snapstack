@@ -12,6 +12,7 @@ A Manifest V3 Chrome extension that stays with designers as they browse, capture
 - **Enable SnapStack** switch in the extension popup
 - On/off status in the extension icon tooltip and right-click menu
 - Thumbnail preview, full-size image preview, copy, and delete
+- Mark up an image in the preview with boxes and text, with colour and line width controls. Delete removes the selected box or text
 - Copy one image or copy the complete stack as SVG-backed independent image layers
 - Local-only storage with a 24-capture limit
 - `T` capture shortcut on webpages, ignored while typing
@@ -19,6 +20,7 @@ A Manifest V3 Chrome extension that stays with designers as they browse, capture
 - `O` shows or hides the floater, ignored while typing
 - `Alt+Shift+S` (`Option+Shift+S` on macOS) also starts a capture
 - `Esc` cancels a capture or closes the stack and image preview
+- In the image preview, `B` picks the box tool, `T` picks the text tool, and `Delete` removes the selection
 
 ## Demo videos
 

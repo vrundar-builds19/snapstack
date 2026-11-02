@@ -10,6 +10,7 @@ import {
   STACK_STORAGE_KEY
 } from "./lib/constants";
 import type {
+  Annotation,
   CaptureItem,
   CapturePreviewItem,
   CaptureRegion,
@@ -178,7 +179,12 @@ function captureStorageKey(id: string) {
 }
 
 function toPreviewItem(item: CaptureItem): CapturePreviewItem {
-  const { imageDataUrl: _imageDataUrl, ...preview } = item;
+  const {
+    imageDataUrl: _imageDataUrl,
+    originalImageDataUrl: _originalImageDataUrl,
+    annotations: _annotations,
+    ...preview
+  } = item;
   return {
     ...preview,
     thumbnailDataUrl: item.thumbnailDataUrl || item.imageDataUrl
@@ -338,6 +344,34 @@ function moveCaptureInStack(id: string, direction: -1 | 1) {
     if (currentIndex < 0 || nextIndex < 0 || nextIndex >= next.length) return;
     [next[currentIndex], next[nextIndex]] = [next[nextIndex], next[currentIndex]];
     await chrome.storage.local.set({ [STACK_INDEX_STORAGE_KEY]: next });
+    void notifyStackUpdated(next);
+  });
+}
+
+function updateCaptureAnnotations(
+  id: string,
+  annotations: Annotation[],
+  imageDataUrl: string,
+  thumbnailDataUrl: string
+) {
+  return queueStackMutation(async () => {
+    const item = await getCaptureItem(id);
+    if (!item) throw new Error("This screenshot is no longer in your stack.");
+    const updated: CaptureItem = { ...item, imageDataUrl, thumbnailDataUrl, annotations };
+    // The first annotation keeps the untouched capture; removing the last one drops the spare copy.
+    if (annotations.length) updated.originalImageDataUrl = item.originalImageDataUrl ?? item.imageDataUrl;
+    else {
+      updated.imageDataUrl = item.originalImageDataUrl ?? imageDataUrl;
+      delete updated.originalImageDataUrl;
+      delete updated.annotations;
+    }
+    const next = (await getPreviewItems()).map((preview) => (
+      preview.id === id ? { ...preview, thumbnailDataUrl } : preview
+    ));
+    await chrome.storage.local.set({
+      [captureStorageKey(id)]: updated,
+      [STACK_INDEX_STORAGE_KEY]: next
+    });
     void notifyStackUpdated(next);
   });
 }
@@ -772,6 +806,15 @@ chrome.runtime.onMessage.addListener(
             return;
           case "MOVE_CAPTURE":
             await moveCaptureInStack(message.id, message.direction);
+            sendResponse({ ok: true });
+            return;
+          case "UPDATE_CAPTURE_ANNOTATIONS":
+            await updateCaptureAnnotations(
+              message.id,
+              message.annotations,
+              message.imageDataUrl,
+              message.thumbnailDataUrl
+            );
             sendResponse({ ok: true });
             return;
           case "CLEAR_STACK":

@@ -1,6 +1,13 @@
+export type Annotation =
+  | { kind: "box"; x: number; y: number; width: number; height: number; color: string; strokeWidth: number }
+  | { kind: "text"; x: number; y: number; text: string; color: string; fontSize: number };
+
 export interface CaptureItem {
   id: string;
+  /** What gets copied: the capture with any annotations drawn on it. */
   imageDataUrl: string;
+  originalImageDataUrl?: string;
+  annotations?: Annotation[];
   thumbnailDataUrl: string;
   width: number;
   height: number;
@@ -9,7 +16,7 @@ export interface CaptureItem {
   capturedAt: number;
 }
 
-export type CapturePreviewItem = Omit<CaptureItem, "imageDataUrl">;
+export type CapturePreviewItem = Omit<CaptureItem, "imageDataUrl" | "originalImageDataUrl" | "annotations">;
 
 export interface StackState {
   items: CapturePreviewItem[];
@@ -63,6 +70,13 @@ export type ExtensionMessage =
     }
   | { type: "REMOVE_CAPTURE"; id: string }
   | { type: "MOVE_CAPTURE"; id: string; direction: -1 | 1 }
+  | {
+      type: "UPDATE_CAPTURE_ANNOTATIONS";
+      id: string;
+      annotations: Annotation[];
+      imageDataUrl: string;
+      thumbnailDataUrl: string;
+    }
   | { type: "CLEAR_STACK" }
   | { type: "RESTORE_CLEARED_STACK"; items: CapturePreviewItem[] }
   | { type: "COMMIT_CLEARED_STACK"; ids: string[] }
