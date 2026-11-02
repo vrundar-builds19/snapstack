@@ -13,15 +13,11 @@ export type CapturePreviewItem = Omit<CaptureItem, "imageDataUrl">;
 
 export interface StackState {
   items: CapturePreviewItem[];
-  /** SnapStack is on and this site is not in the turned-off list. */
   siteEnabled: boolean;
   siteSupported: boolean;
-  /** The global on/off switch, independent of the current site. */
-  globalEnabled: boolean;
-  hostname: string;
 }
 
-export type SiteState = Omit<StackState, "items">;
+export type SiteState = Pick<StackState, "siteEnabled" | "siteSupported">;
 
 export interface CaptureRegion {
   x: number;
@@ -71,7 +67,6 @@ export type ExtensionMessage =
   | { type: "RESTORE_CLEARED_STACK"; items: CapturePreviewItem[] }
   | { type: "COMMIT_CLEARED_STACK"; ids: string[] }
   | { type: "SET_ACTIVE_SITE_ENABLED"; enabled: boolean; includeItems?: boolean }
-  | { type: "SET_SITE_DISABLED"; disabled: boolean }
   | { type: "SET_FLOATER_POSITION"; position: FloaterPosition }
   | { type: "OPEN_POPUP" }
   | { type: "START_CAPTURE_ACTIVE" }

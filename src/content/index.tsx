@@ -663,9 +663,7 @@ function App() {
   const [state, setState] = useState<StackState>({
     items: [],
     siteEnabled: false,
-    siteSupported: true,
-    globalEnabled: false,
-    hostname: location.hostname
+    siteSupported: true
   });
   const [expanded, setExpanded] = useState(false);
   const [capturing, setCapturing] = useState(false);
